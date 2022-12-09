@@ -11,8 +11,8 @@
     <h2>Latest News</h2>
 
     <div id="latest-stories">
-        {% if latest_stories %}
-            {% for story in latest_stories %}
+        {% if all_stories %}
+            {% for story in all_stories %}
                 {% include './storyCard.html' with story=story position=forloop.counter%}
             {% endfor %}
         {% else %}
@@ -21,7 +21,7 @@
     </div>
 
     <div id="all-stories">
-        {% if latest_stories %}
+        {% if all_stories %}
             {% for story in all_stories %}
                 {% include './storyCard.html' with story=story %}
             {% endfor %}
