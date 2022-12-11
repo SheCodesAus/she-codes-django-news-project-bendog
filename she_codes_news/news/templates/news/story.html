@@ -14,4 +14,24 @@
         {{ story.content|linebreaks }}
     </div>
 </div>
+
+<div id="comment-wrapper">
+    <div>
+
+        <form method="POST" action="{{ form_action }}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Add Comment</button>
+        </form>
+    </div>
+
+    <p><a href="{% url 'news:addComment' story.id %}">Add a comment</a></p>
+
+    <ul>
+    {% for comment in story.comments.all %}
+        <li>{{comment.author.username}} ({{comment.created_at}}): {{ comment.content }}</li>
+    {% endfor %}
+    </ul>
+
+
 {% endblock %}
