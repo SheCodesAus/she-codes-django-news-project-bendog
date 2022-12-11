@@ -8,3 +8,6 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
     
+class Example(models.Model):
+    name = models.CharField(max_length=18)
+    thing = models.BooleanField()
