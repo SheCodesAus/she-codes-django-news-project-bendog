@@ -8,6 +8,8 @@
     {% block content %}
     <a href="{% url 'news:newStory' %}">Write New Story</a>
 
+    {% comment %}
+
     <h2>Latest News</h2>
 
     <div id="latest-stories">
@@ -18,7 +20,18 @@
         {% else %}
             <p>No stories are available.</p>
         {% endif %}
-    </div>
+    </div> {% endcomment %}
+
+    <form method="GET">
+        <select name="with_author">
+            <option value="">All Authors</option>
+            {% for author in author_list %}
+            <option value="{{ author.id }}">{{ author.username }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">filter</button>
+    </form>
+
 
     <div id="all-stories">
         {% if latest_stories %}

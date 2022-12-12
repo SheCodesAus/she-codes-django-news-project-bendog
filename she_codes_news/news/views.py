@@ -1,19 +1,27 @@
+from django.contrib.auth import get_user_model
 from django.views import generic
 from django.urls import reverse_lazy
 from .models import NewsStory
 from .forms import StoryForm
 
+
+User = get_user_model()
+
 class IndexView(generic.ListView):
     template_name = 'news/index.html'
+    context_object_name = 'all_stories'
 
     def get_queryset(self):
         '''Return all news stories.'''
-        return NewsStory.objects.all()
+        qs = NewsStory.objects.all()
+        if author_id := self.request.GET.get('with_author'):
+            qs = qs.filter(author_id=author_id)
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['latest_stories'] = NewsStory.objects.all()[:4]
-        context['all_stories'] = NewsStory.objects.all()
+        context['author_list'] = User.objects.all()
         return context
 
 class StoryView(generic.DetailView):
