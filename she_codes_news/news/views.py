@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.views import generic
 from django.urls import reverse_lazy
 from .models import NewsStory
-from .forms import StoryForm
+from .forms import StoryForm, SearchForm
 
 
 User = get_user_model()
@@ -28,6 +28,7 @@ class IndexView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['latest_stories'] = NewsStory.objects.all()[:4]
         context['author_list'] = User.objects.all()
+        context['form'] = SearchForm(self.request.GET)
         return context
 
 class StoryView(generic.DetailView):

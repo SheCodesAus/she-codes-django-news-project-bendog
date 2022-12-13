@@ -24,13 +24,7 @@
 
     <div>
         <form method="GET">
-            <select name="with_author">
-                <option value="">All Authors</option>
-                {% for author in author_list %}
-                <option value="{{ author.id }}" {% if request.GET.with_author == author.id|stringformat:"i" %}selected="true"{% endif %}>{{ author.username }}</option>
-                {% endfor %}
-            </select>
-            <input type="search" name="search" placeholder="search" value="{{request.GET.search}}" />
+            {{ form.as_table }}
             <button type="submit">filter</button>
         </form>
 
