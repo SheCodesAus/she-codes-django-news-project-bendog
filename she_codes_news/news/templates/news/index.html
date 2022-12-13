@@ -22,15 +22,21 @@
         {% endif %}
     </div> {% endcomment %}
 
-    <form method="GET">
-        <select name="with_author">
-            <option value="">All Authors</option>
-            {% for author in author_list %}
-            <option value="{{ author.id }}">{{ author.username }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">filter</button>
-    </form>
+    <div>
+        <form method="GET">
+            <select name="with_author">
+                <option value="">All Authors</option>
+                {% for author in author_list %}
+                <option value="{{ author.id }}" {% if request.GET.with_author == author.id|stringformat:"i" %}selected="true"{% endif %}>{{ author.username }}</option>
+                {% endfor %}
+            </select>
+            <input type="search" name="search" placeholder="search" value="{{request.GET.search}}" />
+            <button type="submit">filter</button>
+        </form>
+
+
+
+    </div>
 
 
     <div id="all-stories">
