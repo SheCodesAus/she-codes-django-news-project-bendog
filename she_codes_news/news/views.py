@@ -1,4 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.views import generic
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from .models import NewsStory
 from .forms import StoryForm
@@ -32,3 +34,14 @@ class AddStoryView(generic.CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
     
+
+@login_required
+def like_post(request, pk):
+    story = get_object_or_404(NewsStory, pk=pk)
+    user = request.user
+    if story.liked_by.filter(id=user.id).exists():
+        story.liked_by.remove(user)
+    else:
+        story.liked_by.all(user)
+    return redirect('news:story', pk=story.id)
+

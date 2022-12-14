@@ -13,5 +13,6 @@
         <img src="{% static '/news/images/placeholder-5.jpg' %}">
         {{ story.content|linebreaks }}
     </div>
+    Liked by {%for user in story.liked_by.all %}{{user.username}}{% endfor %}
 </div>
 {% endblock %}
