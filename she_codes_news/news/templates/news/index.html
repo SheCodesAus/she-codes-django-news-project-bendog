@@ -8,20 +8,17 @@
     {% block content %}
     <a href="{% url 'news:newStory' %}">Write New Story</a>
 
-    <h2>Latest News</h2>
+    <h2>{% if request.GET.order == 'oldfirst' %}Old{% else %}Latest{% endif %} News</h2>
 
-    <div id="latest-stories">
-        {% if latest_stories %}
-            {% for story in latest_stories %}
-                {% include './storyCard.html' with story=story position=forloop.counter%}
-            {% endfor %}
-        {% else %}
-            <p>No stories are available.</p>
-        {% endif %}
-    </div>
+    <form method="GET" >
+        <table>
+        {{ form.as_div }}
+        </table>
+        <button type="submit">filter</button>
+    </form>
 
     <div id="all-stories">
-        {% if latest_stories %}
+        {% if all_stories %}
             {% for story in all_stories %}
                 {% include './storyCard.html' with story=story %}
             {% endfor %}
