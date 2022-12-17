@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+<h4>{{ customuser.username }}'s {{customuser.favourites.count}} favourite{{ customuser.favourites.count|pluralize:"s"}}:</h4>
+<ul>
+    {% for story in customuser.favourites.all %}
+    <li>
+        <a href="{% url 'news:story' story.id %}">
+            {{ story.title }} by {{ story.author }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}
