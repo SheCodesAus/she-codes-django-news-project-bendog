@@ -1,5 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.views import generic
 from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, redirect
 from .models import NewsStory
 from .forms import StoryForm
 
@@ -31,4 +33,15 @@ class AddStoryView(generic.CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+    
+@login_required
+def like(request, pk):
+    """ when given a pk for a newstory, add the user to the like, 
+    or if exists, remove the user"""
+    news_story = get_object_or_404(NewsStory, pk=pk)
+    if news_story.favourited_by.filter(username=request.user.username).exists():
+        news_story.favourited_by.remove(request.user)
+    else:
+        news_story.favourited_by.add(request.user)
+    return redirect(reverse_lazy('news:story', kwargs={'pk': pk}))
     
